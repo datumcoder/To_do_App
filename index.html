@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <script src="https://cdn.tailwindcss.com"></script>
+     <style>
+        [x-cloak] {
+
+            display: none;
+        }
+        .delete:hover{ 
+            cursor: pointer;
+        }
+        .completed{
+
+            text-decoration:line-through;
+            color:rgb(207, 25, 25);
+        }
+
+
+     </style>
+
+    <title>ToDo List</title>
+</head>
+<body>
+
+    <h1 class="flex items-center justify-center bg-emerald-600  pt-10 text-6xl text-white">To Do List</h1>
+    <div class="flex items-center justify-center bg-emerald-600  pt-10" x-data="{todos: [], userInput: ''}">
+
+       <form relative h-32 w-32 x-on:submit.prevent>
+        <input class="text-3xl" x-model="userInput" placeholder="Enter todo item" type="text">
+
+         <button class="bg-emerald-600 border-solid rounded-md border-4 border-green-500 pl-2 pr-2 text-3xl text-white" x-on:click=" if (userInput.trim().length > 0) 
+            todos.push({name: userInput, completed: false}), userInput = ''">Add</button>
+    </form>
+    <div class="absolute top-80" ><template  x-for="todo in todos">
+
+            <div>
+                <input type="checkbox" x-model="todo.completed">
+                <span class="text-4xl text-green pt-4 pr-4" x-text="todo.name" :class="{'completed' : todo.completed}"></span>
+                <button x-on:click="todos = todos.filter((currTodo) => currTodo != todo)" class="delete">x</button>
+            
+            </div>
+        
+        </template>
+
+        <button class="border-solid rounded-md border-4 border-red-500 pl-2 pr-2 text-xl m-8"  @click="todos = []" x-show="todos.length">Clear List</button>
+
+        <div class="text-2xl m8-7">
+            <span class="border-solid rounded-md border-2 border-green-500 pl-2 pr-2 text-2xl" x-text="todos.filter((todo) => todo.completed).length"></span> /
+            <span class="border-solid rounded-md border-2 border-red-500 pl-2 pr-2 text-2xl" x-text="todos.length"></span>
+            <h1 class="text-3xl pt-8 ">ToDos complete</h1>
+        </div>
+
+
+    
+ 
+
+</body>
+</html>
